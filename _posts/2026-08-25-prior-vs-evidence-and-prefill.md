@@ -9,6 +9,10 @@ toc: true
 cite: true
 ---
 
+<div class="note" markdown="1">
+This small investigation is part of a larger research project surrounding research taste in large language models, and benchmarking and improving downstream autoresearch capabilities.
+</div>
+
 
 
 [^1]: 
