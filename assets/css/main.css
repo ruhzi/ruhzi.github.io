@@ -106,3 +106,29 @@ sup[role="doc-noteref"] a, .footnote { font-family: var(--sans); font-size: 0.75
 
 /* Page */
 .page h1 { font-size: 1.9rem; letter-spacing: -0.015em; margin: 0 0 1.5rem; }
+
+/* Trace cards: verbatim reasoning excerpts.
+   <div class="trace lethal"> <p class="trace-head"><span class="tag">lethal prior</span><span class="meta">model · sample · channel</span></p> <pre>…</pre> <p class="gloss">…</p> </div>
+   variants: .prior .evidence .applicable .lethal */
+:root { --t-prior: #8a3a22; --t-prior-bg: #f0ded7; --t-evid: #2f5a78; --t-evid-bg: #dce7ee; --t-good: #26543c; --t-good-bg: #dce9e0; }
+@media (prefers-color-scheme: dark) { :root { --t-prior: #e2a38c; --t-prior-bg: #46271d; --t-evid: #9fc2da; --t-evid-bg: #22333f; --t-good: #9fd1b4; --t-good-bg: #22392c; } }
+.trace { margin: 1.6rem 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--code-bg); }
+.trace .trace-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0; padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--rule); font-family: var(--sans); }
+.trace .tag { font-family: var(--mono); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.45rem; border-radius: 2px; }
+.trace .meta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+.trace pre { margin: 0; padding: 0.8rem 0.9rem; background: transparent; border-radius: 0; white-space: pre-wrap; word-break: break-word; font-size: 0.78rem; line-height: 1.55; }
+.trace .gloss { margin: 0; padding: 0.6rem 0.9rem 0.75rem; font-size: 0.92rem; color: var(--muted); border-top: 1px dashed var(--rule); background: var(--bg); }
+.trace .gloss strong { color: var(--fg); }
+.trace.prior .tag, .trace.lethal .tag { background: var(--t-prior-bg); color: var(--t-prior); }
+.trace.lethal .tag { outline: 1px solid var(--t-prior); }
+.trace.lethal { border-left: 3px solid var(--t-prior); }
+.trace.evidence .tag { background: var(--t-evid-bg); color: var(--t-evid); }
+.trace.evidence { border-left: 3px solid var(--t-evid); }
+.trace.applicable .tag { background: var(--t-good-bg); color: var(--t-good); }
+.trace.applicable { border-left: 3px solid var(--t-good); }
+
+/* Definition blocks */
+.defn { margin: 1.4rem 0; padding-left: 1rem; border-left: 2px solid var(--accent); }
+.defn > p:first-child { margin-bottom: 0.5rem; }
+.defn .term { font-family: var(--sans); font-weight: 600; }
+.defn .test { font-size: 0.92rem; color: var(--muted); }
