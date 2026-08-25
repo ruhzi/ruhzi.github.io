@@ -18,7 +18,7 @@ I have been benchmarking frontier models on how well they predict empirical outc
 
 For the task type, these priors can end up derailing the reasoning trace of the model and culminating in a really wrong prediction.
 
-Over the cycles I have spent reading these trajectories, I am arriving at a fuzzy conclusion about research taste in large language models. Crudely put, how tasteful a model is depends heavily on when it relies on its priors, and when it doesn't.
+Over the cycles I have spent reading these trajectories, I am arriving at a fuzzy conclusion about research taste in large language models. Crudely put, how tasteful a model is depends heavily on when it relies on its priors, and when it doesn't. \
 
 A _prior_ is an assumption a language model makes based on its knowledge of the domain.
 
