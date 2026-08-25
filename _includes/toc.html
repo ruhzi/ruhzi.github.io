@@ -1,0 +1,10 @@
+{% comment %} Minimal pure-Liquid TOC: lists h2/h3 with ids that kramdown auto-generates. {% endcomment %}
+{% assign minH = include.h_min | default: 2 %}{% assign maxH = include.h_max | default: 3 %}
+{% assign nodes = include.html | split: '<h' %}
+<ul class="toc-list">
+{% for node in nodes %}{% assign lvl = node | slice: 0, 1 | plus: 0 %}{% if lvl >= minH and lvl <= maxH %}
+  {% assign id = node | split: 'id="' | last | split: '"' | first %}
+  {% assign text = node | split: '>' | slice: 1, 1 | first | split: '</h' | first | strip_html %}
+  {% if id != '' and text != '' %}<li class="toc-l{{ lvl }}"><a href="#{{ id }}">{{ text }}</a></li>{% endif %}
+{% endif %}{% endfor %}
+</ul>

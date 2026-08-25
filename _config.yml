@@ -1,0 +1,33 @@
+title: ruhzi
+tagline: notes on research taste, autoresearch, and language models
+description: >-
+  Writing on benchmarking research taste and improving downstream
+  autoresearch capabilities in language models.
+author:
+  name: Ruhaan Chopra
+url: https://ruhzi.github.io
+baseurl: ""
+lang: en
+timezone: Asia/Kolkata
+
+permalink: /:year/:title/
+markdown: kramdown
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  syntax_highlighter: rouge
+  footnote_backlink: "&#8617;"
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+feed:
+  path: feed.xml
+
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post, comments: false }
+
+exclude: [README.md, Gemfile, Gemfile.lock, vendor, node_modules]
