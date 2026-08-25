@@ -13,7 +13,7 @@ math: true
       {{ words | divided_by: 230 | at_least: 1 }} min read
       {% if page.series %}<span class="sep">·</span> part of <em>{{ page.series }}</em>{% endif %}
     </p>
-    {% if page.tldr %}
+    {% if page.tldr and page.tldr != "" %}
     <aside class="tldr"><strong>tl;dr</strong> {{ page.tldr }}</aside>
     {% endif %}
   </header>
