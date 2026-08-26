@@ -89,3 +89,6 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `neutral` | 0.026 | 1,582 | 1,340 / 1,802 | 4/4 | 4/4 |
 | `prior_only` | 0.028 | 860 | 737 / 919 | 4/4 | 4/4 |
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
+
+
+The pass prefilled with the prior performed similarly to the neutral pass, albiet consuming lesser tokens. The pass prefilled with only the setup reinstated, with no new information added, outperformed both other passes by a significant degree, while reasoning for a longer while.
