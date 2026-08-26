@@ -117,8 +117,10 @@ The same fact is read in opposite directions depending on the prefill :
 Simply restating the setup conditions the trajectory on evidence over its priors, so much so that the exact same prior, when it surfaces later in the trace, cannot derail it. It followed the evidence rather than preceding it; it was bounded.
 
 <div class="trace evidence">
-<p class="trace-head"><span class="tag">applicable prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only</span></p>
-<pre>Usually, adding geometric consistency checks … helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too [strict].</pre>
+<p class="trace-head"><span class="tag">applicable prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only · rollout g0</span></p>
+<pre>Usually, adding geometric consistency checks (like reprojection error) in multi-view localization helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too strict (though here it's adaptive to bbox size, so it should be reasonable).</pre>
+</div>
 
+</div>
 
 While research taste is often seen as an emergent property of scale, there are unmistakeable characteristics (as well as failure modes) of tasteful trajectories, which keep getting surfaced in the small evals I ran. I am confident that they can be decomposed into RL environments which can explictly tune in these characteristics into smaller models, thus exchanging parameters for explicit injection. This is an ongoing research project, and there will be more updates to come.
