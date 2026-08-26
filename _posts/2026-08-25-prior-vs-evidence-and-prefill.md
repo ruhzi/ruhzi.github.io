@@ -13,17 +13,6 @@ cite: true
   <figcaption><strong>Figure 1.</strong> Attention mass from each newly generated token to the prefix sentence (solid: orange = prior, green = evidence restatement) and to the prompt's own evidence facts (dashed blue), as the trace extends. s040; each line is the mean over the arm's four rollouts.</figcaption>
 </figure>
 
-<div class="method" markdown="1">
-**How the curves were computed.** Qwen3.5-4B in thinking mode via HF `transformers` (fp16, `attn_implementation="eager"` so attention weights are returned), temperature 0.6, top-p 0.95, up to 16,384 new tokens, fixed seed per (sample, arm, chunk). The prefill is appended to the assistant turn immediately after the `<think>` opener, so the model continues from it rather than seeing it as user text.
-
-*What is measured.* Qwen3.5-4B is a hybrid stack: of its 32 layers, 8 use full softmax attention and the remaining 24 are gated DeltaNet (linear attention), which return no attention matrix. The curves therefore cover only the 8 full-attention layers. At every decode step we take the attention row of the token being generated (query = last position), sum it over the key positions belonging to a span, average over heads, then average over the 8 layers. That scalar is the plotted **attention mass**: the fraction of the current token's attention that lands on the span, in [0, 1]. It is not normalised by span length.
-
-*Spans.* Two kinds, located by character offsets in the tokenised context. **Prompt evidence** (dashed blue) is a fixed set of substrings of the task prompt; for s040: `max(10, 0.02`, `typically 10--25 pixels`, `Succ. = 81.42%`, `Succ.* = 96.93%`. **Prefix sentence** (solid) is the prefilled sentence itself: the prior in `prior_only`, the setup restatement in `evidence_only`; absent in `neutral`, hence that panel has only the dashed line.
-
-*Position normalisation.* Traces differ in length (860 vs 4,426 tokens on average across arms), so each rollout's per-token series is mapped onto 50 evenly spaced points of normalised position `i / len(trace)` by nearest index, and the four rollouts of an arm are averaged pointwise. Early spikes therefore sit at the same x regardless of how long the trace ran; the curves show *where in its own reasoning* a rollout re-read the prefix, not absolute token counts.
-</div>
-
-
 <div class="note" markdown="1">
 This small investigation is part of a larger research project on research taste in large language models, and benchmarking and improving downstream autoresearch capabilities.
 </div>
@@ -35,7 +24,6 @@ I have been benchmarking frontier models on how well they predict empirical outc
 For the task type, these priors can end up derailing the reasoning trace of the model and culminating in a really wrong prediction.
 
 Over the cycles I have spent reading these trajectories, I am arriving at a fuzzy conclusion about research taste in large language models. Crudely put, how tasteful a model is depends heavily on when it relies on its priors, and when it doesn't. 
-
 
 <div class="method" markdown="1">
 **A note on the sample.** The traces below come from one training sample built from *Path Integral Value Matching for Linear Quadratic Stochastic Optimal Control* ([arXiv 2608.10777](https://arxiv.org/abs/2608.10777)). I rewrote the paper's method section in the first person with all results removed, gave the model the adjoint-matching (AM) baseline's numbers, and asked it to predict PI-VM's control L2 error and the paper's reported "Time" (in ms) on the three unimodal OU tasks. The paper does not define "Time" beyond the table header; from context it is per-iteration runtime on a single RTX 4060, and the 8 vs 41 ms gap reflects PI-VM dropping the baseline's forward simulation and backpropagation through the dynamics.
@@ -93,8 +81,6 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 <div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
 </div>
 
-
-
 ### Results (s040, four rollouts per arm)
 
 | arm | mean err | mean length (tok) | min / max length | closed think | parsed |
@@ -102,7 +88,6 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `neutral` | 0.026 | 1,582 | 1,340 / 1,802 | 4/4 | 4/4 |
 | `prior_only` | 0.028 | 860 | 737 / 919 | 4/4 | 4/4 |
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
-
 
 The arm prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. \
 **The arm prefilled with only the setup restated, with no new information added outperformed both other arms by a significant degree, while reasoning for a longer while.**
@@ -130,6 +115,10 @@ Simply restating the setup conditions the trajectory on evidence over its priors
 <div class="trace evidence">
 <p class="trace-head"><span class="tag">bounded prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only · rollout g0</span></p>
 <pre>Usually, adding geometric consistency checks (like reprojection error) in multi-view localization helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too strict (though here it's adaptive to bbox size, so it should be reasonable).</pre>
+</div>
+
+<div class="method" markdown="1">
+**Figure 1, implementation.** Qwen3.5-4B, thinking mode, temp 0.6, prefill placed just after `<think>`. Qwen3.5-4B is a hybrid stack and only 8 of its 32 layers use full softmax attention; the curves cover those 8. At each decode step the generated token's attention is summed over a span's tokens and averaged over heads and layers: that fraction is the plotted mass. Prompt evidence for s040 is four literal substrings (`max(10, 0.02`, `typically 10--25 pixels`, `Succ. = 81.42%`, `Succ.* = 96.93%`); the prefix span is the prefilled sentence itself. Each rollout is resampled to 50 points of normalised position (index / trace length) and the four rollouts of an arm are averaged, so spikes align by fraction of the trace, not token count.
 </div>
 
 <div class="closing" markdown="1">
