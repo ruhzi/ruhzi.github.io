@@ -1,5 +1,5 @@
 ---
-title: "Does the prior follow the evidence, or precede it?"
+title: "'Prior-hacking' might be damaging research taste"
 
 date: 2026-08-26
 
@@ -94,9 +94,10 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
 
 
-The arm prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The arm prefilled with only the setup restated, with no new information added outperformed both other arms by a significant degree, while reasoning for a longer while.
+The arm prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. \
+**The arm prefilled with only the setup restated, with no new information added outperformed both other arms by a significant degree, while reasoning for a longer while.**
 
-Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention)).
+Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to _prior-hacking_: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention)).
 
 _Conditioning the trajectory on a prior, even a valid one, can destructively derail it._
 
