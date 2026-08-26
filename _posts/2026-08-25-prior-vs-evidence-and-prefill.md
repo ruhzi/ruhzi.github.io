@@ -24,7 +24,7 @@ I have been benchmarking frontier models on how well they predict empirical outc
 
 For the task type, these priors can end up derailing the reasoning trace of the model and culminating in a really wrong prediction.
 
-Over the cycles I have spent reading these trajectories, I am arriving at a fuzzy conclusion about research taste in large language models. Crudely put, how tasteful a model is depends heavily on when it relies on its priors, and when it doesn't. \
+Over the cycles I have spent reading these trajectories, I am arriving at a fuzzy conclusion about research taste in large language models. Crudely put, how tasteful a model is depends heavily on when it relies on its priors, and when it doesn't. 
 
 
 <div class="method" markdown="1">
@@ -62,7 +62,7 @@ The prior is consumed before its evidence, and the evidence is either never surf
 <span class="score-tag"><b>deepseek-v4-pro</b> · mean sample error <b>3.34</b> · field median 0.94</span>
 
 <div class="takeaway" markdown="1">
-DeepSeek-v4-pro never took cognizance of the expensive adjoint-matching baseline, and instead relied on its prior in an unbounded — lethal — manner, and ended up very far off.
+DeepSeek-v4-pro never took cognizance of the expensive adjoint-matching baseline, and instead relied on its prior in an unbounded (lethal) manner, and ended up very far off.
 
 **Neither prior is false.** MC sampling does cost compute; AM's adjoint solve is expensive. But the setup only allows one of them to be consumed in a justified manner.
 </div>
@@ -72,13 +72,13 @@ DeepSeek-v4-pro never took cognizance of the expensive adjoint-matching baseline
 To test the effect that a scientifically valid and applicable prior has on the reasoning trajectory, I ran 3 arms on Qwen3.5-4B per rollout, four sampled rollouts each (temp 0.6, thinking on), one prefilled with a prior, one prefilled with the setup reinstated, and one prefilled with nothing. 
 
 <div class="method" markdown="1">
-**A note on the sample.** This trace comes from a training sample built from *EgoHieraLoc: A Cortically Inspired Hierarchical Segmentation-Guided Framework for Egocentric Visual Query Localization* ([arXiv 2608.09656](https://arxiv.org/abs/2608.09656)). The task is 3D object localization from first-person video: several camera frames each vote on where an object is, and the votes are averaged with confidence weights. The paper's baseline weights each frame only by how semantically confident it is. The intervention adds one more multiplicative weight — a *reprojection check* that down-weights a frame if projecting the consensus 3D point back into that frame lands far from where the object was actually seen. I gave the model the baseline's five numbers on the Ego4D-VQ3D validation set (Succ. 81.42%, Succ.* 96.93%, L2 1.37 m, Ang. 0.60 rad, QwP 84.48%) and asked it to predict all five after the geometric weight is added. Truth: small gains on four (81.82 / 98.11 / 1.31 / 0.57) and no change on QwP.
+**A note on the sample.** This trace comes from a training sample built from *EgoHieraLoc: A Cortically Inspired Hierarchical Segmentation-Guided Framework for Egocentric Visual Query Localization* ([arXiv 2608.09656](https://arxiv.org/abs/2608.09656)). The task is 3D object localization from first-person video: several camera frames each vote on where an object is, and the votes are averaged with confidence weights. The paper's baseline weights each frame only by how semantically confident it is. The intervention adds one more multiplicative weight, a *reprojection check*, that down-weights a frame if projecting the consensus 3D point back into that frame lands far from where the object was actually seen. I gave the model the baseline's five numbers on the Ego4D-VQ3D validation set (Succ. 81.42%, Succ.* 96.93%, L2 1.37 m, Ang. 0.60 rad, QwP 84.48%) and asked it to predict all five after the geometric weight is added. Truth: small gains on four (81.82 / 98.11 / 1.31 / 0.57) and no change on QwP.
 </div>
 
 The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 
 <div class="prefills">
-<div class="prefill neutral"><span class="ptag">neutral</span><p>(no prefill — the model begins its own reasoning)</p></div>
+<div class="prefill neutral"><span class="ptag">neutral</span><p>(no prefill: the model begins its own reasoning)</p></div>
 <div class="prefill prior"><span class="ptag">prior_only</span><p>Reprojection-consistency weighting is a well-founded geometric constraint -- multiplicatively down-weighting frames whose back-projection disagrees with the consensus suppresses outlier views -- so adding it should improve localization.</p><p class="pcite">Supported by: Black &amp; Rangarajan, <a href="https://doi.org/10.1007/BF00131148">“On the unification of line processes, outlier rejection, and robust statistics with applications in early vision,”</a> IJCV 19(1), 1996 · Mai et al., <a href="https://arxiv.org/abs/2212.06969">“EgoLoc: Revisiting 3D object localization from egocentric videos with visual queries,”</a> ICCV 2023.</p></div>
 <div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
 </div>
@@ -97,7 +97,7 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 The arm prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. \
 **The arm prefilled with only the setup restated, with no new information added outperformed both other arms by a significant degree, while reasoning for a longer while.**
 
-Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to _prior-hacking_: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention)).
+Reading the traces makes one wonder whether smaller models like the Qwen are even more susceptible to _prior-hacking_: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention)).
 
 _Conditioning the trajectory on a prior, even a valid one, can destructively derail it._
 
