@@ -93,7 +93,7 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 
 The pass prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The pass prefilled with only the setup restated, with no new information added outperformed both other passes by a significant degree, while reasoning for a longer while.
 
-Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention): in the `prior_only` panel the orange prefix line re-spikes throughout the trace, while in `evidence_only` the green prefix line dies off after the opening and attention returns to the prompt).
+Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention)).
 
 _Conditioning the trajectory on a prior, even a valid one, can destructively derail it._
 
