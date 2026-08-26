@@ -8,6 +8,12 @@ toc: true
 cite: true
 ---
 
+<figure class="wide" id="fig-attention">
+  <img src="/assets/img/prefill-attention-s040.png" alt="Attention mass over normalized position for the s040 sample under the neutral, prior_only and evidence_only arms">
+  <figcaption><strong>Figure 1.</strong> Attention paid to the prefix sentence (solid: orange = prior, green = evidence) and to the prompt's own evidence facts (dashed blue) as the trace extends, s040, four rollouts overlaid per panel.</figcaption>
+</figure>
+
+
 <div class="note" markdown="1">
 This small investigation is part of a larger research project on research taste in large language models, and benchmarking and improving downstream autoresearch capabilities.
 </div>
@@ -77,10 +83,7 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 <div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
 </div>
 
-<figure class="wide" id="fig-attention">
-  <img src="/assets/img/prefill-attention-s040.png" alt="Attention mass over normalized position for the s040 sample under the neutral, prior_only and evidence_only arms">
-  <figcaption><strong>Figure 1.</strong> Attention paid to the prefix sentence (solid: orange = prior, green = evidence) and to the prompt's own evidence facts (dashed blue) as the trace extends, s040, four rollouts overlaid per panel.</figcaption>
-</figure>
+
 
 ### Results (s040, four rollouts per arm)
 
@@ -102,13 +105,13 @@ The same fact is read in opposite directions depending on the prefill :
 <div class="trace prior">
 <p class="trace-head"><span class="tag">prior_only</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · rollout g0</span></p>
 <pre>ε_r = max(10, 0.02 × bbox_diag) … is 10-25 pixels. This is fairly strict for 3D localization</pre>
-<p class="gloss">Read as <strong>strict</strong>: the tolerance will filter aggressively, so the prior's promised improvement is large.</p>
+
 </div>
 
 <div class="trace evidence">
 <p class="trace-head"><span class="tag">evidence_only</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · rollout g1</span></p>
 <pre>quite lenient for 3D localization (10 pixels in image space corresponds to significant depth error). So it might not filter out too many frames, just the obvious outliers. So improvement should be noticeable but not game-changing.</pre>
-<p class="gloss">Read as <strong>lenient</strong>: only obvious outliers go, so the move is small — which is what the truth shows.</p>
+
 </div>
 
 Simply restating the setup conditions the trajectory on evidence over its priors, so much so that the exact same prior, when it surfaces later in the trace, cannot derail it. It followed the evidence rather than preceding it; it was bounded.
@@ -117,3 +120,5 @@ Simply restating the setup conditions the trajectory on evidence over its priors
 <p class="trace-head"><span class="tag">applicable prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only</span></p>
 <pre>Usually, adding geometric consistency checks … helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too [strict].</pre>
 
+
+While research taste is often seen as an emergent property of scale, there are unmistakeable characteristics (as well as failure modes) of tasteful trajectories, which keep getting surfaced in the small evals I ran. I am confident that they can be decomposed into RL environments which can explictly tune in these characteristics into smaller models, thus exchanging parameters for explicit injection. This is an ongoing research project, and there will be more updates to come.
