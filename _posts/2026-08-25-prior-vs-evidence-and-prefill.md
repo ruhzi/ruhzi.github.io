@@ -77,7 +77,7 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 <div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
 </div>
 
-<figure class="wide">
+<figure class="wide" id="fig-attention">
   <img src="/assets/img/prefill-attention-s040.png" alt="Attention mass over normalized position for the s040 sample under the neutral, prior_only and evidence_only arms">
   <figcaption><strong>Figure 1.</strong> Attention paid to the prefix sentence (solid: orange = prior, green = evidence) and to the prompt's own evidence facts (dashed blue) as the trace extends, s040, four rollouts overlaid per panel.</figcaption>
 </figure>
@@ -91,11 +91,11 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
 
 
-The pass prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The pass prefilled with only the setup restated — no new information added — outperformed both other passes by a significant degree, while reasoning for a longer while.
+The pass prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The pass prefilled with only the setup restated, with no new information added outperformed both other passes by a significant degree, while reasoning for a longer while.
 
-Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory.
+Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention): in the `prior_only` panel the orange prefix line re-spikes throughout the trace, while in `evidence_only` the green prefix line dies off after the opening and attention returns to the prompt).
 
-Conditioning the trajectory on a prior, even a valid one, can destructively derail it.
+_Conditioning the trajectory on a prior, even a valid one, can destructively derail it._
 
 The same fact is read in opposite directions depending on the prefill :
 
