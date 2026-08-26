@@ -10,8 +10,18 @@ cite: true
 
 <figure class="wide" id="fig-attention">
   <img src="/assets/img/prefill-attention-s040.png" alt="Attention mass over normalized position for the s040 sample under the neutral, prior_only and evidence_only arms">
-  <figcaption><strong>Figure 1.</strong> Attention paid to the prefix sentence (solid: orange = prior, green = evidence) and to the prompt's own evidence facts (dashed blue) as the trace extends, s040, four rollouts overlaid per panel.</figcaption>
+  <figcaption><strong>Figure 1.</strong> Attention mass from each newly generated token to the prefix sentence (solid: orange = prior, green = evidence restatement) and to the prompt's own evidence facts (dashed blue), as the trace extends. s040; each line is the mean over the arm's four rollouts.</figcaption>
 </figure>
+
+<div class="method" markdown="1">
+**How the curves were computed.** Qwen3.5-4B in thinking mode via HF `transformers` (fp16, `attn_implementation="eager"` so attention weights are returned), temperature 0.6, top-p 0.95, up to 16,384 new tokens, fixed seed per (sample, arm, chunk). The prefill is appended to the assistant turn immediately after the `<think>` opener, so the model continues from it rather than seeing it as user text.
+
+*What is measured.* Qwen3.5-4B is a hybrid stack: of its 32 layers, 8 use full softmax attention and the remaining 24 are gated DeltaNet (linear attention), which return no attention matrix. The curves therefore cover only the 8 full-attention layers. At every decode step we take the attention row of the token being generated (query = last position), sum it over the key positions belonging to a span, average over heads, then average over the 8 layers. That scalar is the plotted **attention mass**: the fraction of the current token's attention that lands on the span, in [0, 1]. It is not normalised by span length.
+
+*Spans.* Two kinds, located by character offsets in the tokenised context. **Prompt evidence** (dashed blue) is a fixed set of substrings of the task prompt; for s040: `max(10, 0.02`, `typically 10--25 pixels`, `Succ. = 81.42%`, `Succ.* = 96.93%`. **Prefix sentence** (solid) is the prefilled sentence itself: the prior in `prior_only`, the setup restatement in `evidence_only`; absent in `neutral`, hence that panel has only the dashed line.
+
+*Position normalisation.* Traces differ in length (860 vs 4,426 tokens on average across arms), so each rollout's per-token series is mapped onto 50 evenly spaced points of normalised position `i / len(trace)` by nearest index, and the four rollouts of an arm are averaged pointwise. Early spikes therefore sit at the same x regardless of how long the trace ran; the curves show *where in its own reasoning* a rollout re-read the prefix, not absolute token counts.
+</div>
 
 
 <div class="note" markdown="1">
