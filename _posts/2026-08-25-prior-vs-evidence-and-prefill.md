@@ -77,6 +77,11 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 <div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
 </div>
 
+<figure class="wide">
+  <img src="/assets/img/prefill-attention-s040.png" alt="Attention mass over normalized position for the s040 sample under the neutral, prior_only and evidence_only arms">
+  <figcaption><strong>Figure 1.</strong> Attention paid to the prefix sentence (solid: orange = prior, green = evidence) and to the prompt's own evidence facts (dashed blue) as the trace extends, s040, four rollouts overlaid per panel.</figcaption>
+</figure>
+
 ### Results (s040, four rollouts per arm)
 
 | arm | mean err | mean length (tok) | min / max length | closed think | parsed |
