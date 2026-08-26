@@ -132,3 +132,7 @@ sup[role="doc-noteref"] a, .footnote { font-family: var(--sans); font-size: 0.75
 .defn > p:first-child { margin-bottom: 0.5rem; }
 .defn .term { font-family: var(--sans); font-weight: 600; }
 .defn .test { font-size: 0.92rem; color: var(--muted); }
+
+/* Standalone score tag, used in prose: <span class="score-tag"><b>model</b> · mean sample error <b>0.94</b> · field median 0.94</span> */
+.score-tag { display: inline-block; margin: -0.6rem 0 1.4rem; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); padding: 0.2rem 0.6rem; border: 1px solid var(--rule); border-radius: 999px; white-space: nowrap; }
+.score-tag b { font-weight: 500; color: var(--fg); }
