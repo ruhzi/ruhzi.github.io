@@ -90,5 +90,34 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `prior_only` | 0.028 | 860 | 737 / 919 | 4/4 | 4/4 |
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
 
+### What the three arms did
 
-The pass prefilled with the prior performed similarly to the neutral pass, albiet consuming lesser tokens. The pass prefilled with only the setup reinstated, with no new information added, outperformed both other passes by a significant degree, while reasoning for a longer while.
+The pass prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The pass prefilled with only the setup restated — no new information added — outperformed both other passes by a significant degree, while reasoning for a longer while.
+
+Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory.
+
+Conditioning the trajectory on a prior, even a valid one, can destructively derail it.
+
+### The same fact, read both ways
+
+The same instance fact — the reprojection tolerance `ε_r = max(10, 0.02 × bbox_diag)`, typically 10–25 pixels — is read in opposite directions depending on the prefill.
+
+<div class="trace prior">
+<p class="trace-head"><span class="tag">prior_only</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · rollout g0</span></p>
+<pre>ε_r = max(10, 0.02 × bbox_diag) … is 10-25 pixels. This is fairly strict for 3D localization</pre>
+<p class="gloss">Read as <strong>strict</strong>: the tolerance will filter aggressively, so the prior's promised improvement is large.</p>
+</div>
+
+<div class="trace evidence">
+<p class="trace-head"><span class="tag">evidence_only</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · rollout g1</span></p>
+<pre>quite lenient for 3D localization (10 pixels in image space corresponds to significant depth error). So it might not filter out too many frames, just the obvious outliers. So improvement should be noticeable but not game-changing.</pre>
+<p class="gloss">Read as <strong>lenient</strong>: only obvious outliers go, so the move is small — which is what the truth shows.</p>
+</div>
+
+Simply restating the setup conditions the trajectory on evidence over its priors — so much so that the exact same prior, when it surfaces later in the trace, cannot derail it. It followed the evidence rather than preceding it; it was bounded.
+
+<div class="trace evidence">
+<p class="trace-head"><span class="tag">applicable prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only</span></p>
+<pre>Usually, adding geometric consistency checks … helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too [strict].</pre>
+<p class="gloss">The same geometric-consistency prior the <code>prior_only</code> arm was seeded with — arriving after the tolerance has been read as lenient, and hedged accordingly.</p>
+</div>
