@@ -24,10 +24,10 @@ A _prior_ is an assumption a language model makes based on its knowledge of the 
 
 
 <div class="method" markdown="1">
-**A note on the sample.** The traces below come from one training sample built from *Path Integral Value Matching for Linear Quadratic Stochastic Optimal Control* ([arXiv 2608.10777](https://arxiv.org/abs/2608.10777)). We rewrote the paper's method section in the first person with all results removed, gave the model the adjoint-matching (AM) baseline's numbers, and asked it to predict PI-VM's control L2 error and the paper's reported "Time" (in ms) on the three unimodal OU tasks. The paper does not define "Time" beyond the table header; from context it is per-iteration runtime on a single RTX 4060, and the 8 vs 41 ms gap reflects PI-VM dropping the baseline's forward simulation and backpropagation through the dynamics.
+**A note on the sample.** The traces below come from one training sample built from *Path Integral Value Matching for Linear Quadratic Stochastic Optimal Control* ([arXiv 2608.10777](https://arxiv.org/abs/2608.10777)). I rewrote the paper's method section in the first person with all results removed, gave the model the adjoint-matching (AM) baseline's numbers, and asked it to predict PI-VM's control L2 error and the paper's reported "Time" (in ms) on the three unimodal OU tasks. The paper does not define "Time" beyond the table header; from context it is per-iteration runtime on a single RTX 4060, and the 8 vs 41 ms gap reflects PI-VM dropping the baseline's forward simulation and backpropagation through the dynamics.
 </div>
 
-###  · An applicable prior
+### An applicable prior
 
 An applicable prior is always bounded by evidence, i.e the model applies its prior knowledge of the domain with respect to the setup.
 
@@ -41,7 +41,7 @@ An applicable prior is always bounded by evidence, i.e the model applies its pri
 
 Fable's prediction was very close to the target values, because it bound its prior by the fact that the baseline method (adjoin matching) requires simulating the controlled SDE forward and then solving an adjoint ODE backward through the whole trajectory (plus backprop through the simulator) on every training step. 
 
-###  · A lethal prior
+### A lethal prior
 
 A lethal prior is unbounded by any evidence, and while it may be technically and scientifically correct, it is applied blindly.
 
@@ -60,3 +60,22 @@ The prior is consumed before its evidence — and the evidence is either never s
 Deepseek-v4-pro never took cognizance of the expensive adjoint matching baseline, and instead relied on its prior in an unbounded (lethal) manner and ended up being very off.
 
 Neither prior is false. MC sampling does cost compute; AM's adjoint solve is expensive. But the setup only allows for one of these to be consumed in a justified manner.
+
+## The Prefill Experiment 
+
+To test the effect that a scientifically valid but inapplicable prior has on the reasoning trajectory, I ran 3 forward passes on Qwen3.5-4B per rollout, one prefilled with a prior, one prefilled with the setup reinstated, and one prefilled with nothing. 
+
+<div class="method" markdown="1">
+**A note on the sample.** This trace comes from a training sample built from *EgoHieraLoc: A Cortically Inspired Hierarchical Segmentation-Guided Framework for Egocentric Visual Query Localization* ([arXiv 2608.09656](https://arxiv.org/abs/2608.09656)). The task is 3D object localization from first-person video: several camera frames each vote on where an object is, and the votes are averaged with confidence weights. The paper's baseline weights each frame only by how semantically confident it is. The intervention adds one more multiplicative weight — a *reprojection check* that down-weights a frame if projecting the consensus 3D point back into that frame lands far from where the object was actually seen. I gave the model the baseline's five numbers on the Ego4D-VQ3D validation set (Succ. 81.42%, Succ.* 96.93%, L2 1.37 m, Ang. 0.60 rad, QwP 84.48%) and asked it to predict all five after the geometric weight is added. Truth: small gains on four (81.82 / 98.11 / 1.31 / 0.57) and no change on QwP.
+</div>
+
+The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
+
+<div class="prefills">
+<div class="prefill neutral"><span class="ptag">neutral</span><p>(no prefill — the model begins its own reasoning)</p></div>
+<div class="prefill prior"><span class="ptag">prior_only</span><p>Reprojection-consistency weighting is a well-founded geometric constraint -- multiplicatively down-weighting frames whose back-projection disagrees with the consensus suppresses outlier views -- so adding it should improve localization.</p><p class="pcite">Supported by: Black &amp; Rangarajan, <a href="https://doi.org/10.1007/BF00131148">“On the unification of line processes, outlier rejection, and robust statistics with applications in early vision,”</a> IJCV 19(1), 1996 · Mai et al., <a href="https://arxiv.org/abs/2212.06969">“EgoLoc: Revisiting 3D object localization from egocentric videos with visual queries,”</a> ICCV 2023.</p></div>
+<div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
+</div>
+
+
+

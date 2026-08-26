@@ -136,3 +136,20 @@ sup[role="doc-noteref"] a, .footnote { font-family: var(--sans); font-size: 0.75
 /* Standalone score tag, used in prose: <span class="score-tag"><b>model</b> · mean sample error <b>0.94</b> · field median 0.94</span> */
 .score-tag { display: inline-block; margin: -0.6rem 0 1.4rem; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); padding: 0.2rem 0.6rem; border: 1px solid var(--rule); border-radius: 999px; white-space: nowrap; }
 .score-tag b { font-weight: 500; color: var(--fg); }
+
+/* Prefill rows: <div class="prefills"> <div class="prefill prior"><span class="ptag">prior_only</span><p>…</p></div> … </div>
+   variants: .neutral .prior .evidence */
+.prefills { margin: 1.4rem 0 1.8rem; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.prefill { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.8rem; padding: 0.7rem 0.9rem; border-top: 1px solid var(--rule); background: var(--code-bg); }
+.prefill:first-child { border-top: 0; }
+.prefill .ptag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.45rem; border-radius: 2px; height: fit-content; text-align: center; margin-top: 0.15rem; }
+.prefill p { margin: 0; font-family: var(--mono); font-size: 0.78rem; line-height: 1.55; }
+.prefill.neutral p { color: var(--muted); font-style: italic; }
+.prefill.neutral .ptag { background: var(--bg); color: var(--muted); border: 1px solid var(--rule); }
+.prefill.prior .ptag { background: var(--t-prior-bg); color: var(--t-prior); }
+.prefill.prior { border-left: 3px solid var(--t-prior); }
+.prefill.evidence .ptag { background: var(--t-evid-bg); color: var(--t-evid); }
+.prefill.evidence { border-left: 3px solid var(--t-evid); }
+@media (max-width: 520px) { .prefill { grid-template-columns: 1fr; gap: 0.3rem; } }
+.prefill .pcite { margin: 0.35rem 0 0; font-family: var(--sans); font-size: 0.72rem; color: var(--muted); line-height: 1.45; }
+.prefill .pcite a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--rule); }
