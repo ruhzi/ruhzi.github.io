@@ -90,7 +90,6 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `prior_only` | 0.028 | 860 | 737 / 919 | 4/4 | 4/4 |
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
 
-### What the three arms did
 
 The pass prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The pass prefilled with only the setup restated — no new information added — outperformed both other passes by a significant degree, while reasoning for a longer while.
 
@@ -98,9 +97,7 @@ Reading the traces makes one wonder whether smaller models like Qwen are even mo
 
 Conditioning the trajectory on a prior, even a valid one, can destructively derail it.
 
-### The same fact, read both ways
-
-The same instance fact — the reprojection tolerance `ε_r = max(10, 0.02 × bbox_diag)`, typically 10–25 pixels — is read in opposite directions depending on the prefill.
+The same fact is read in opposite directions depending on the prefill :
 
 <div class="trace prior">
 <p class="trace-head"><span class="tag">prior_only</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · rollout g0</span></p>
@@ -114,7 +111,7 @@ The same instance fact — the reprojection tolerance `ε_r = max(10, 0.02 × bb
 <p class="gloss">Read as <strong>lenient</strong>: only obvious outliers go, so the move is small — which is what the truth shows.</p>
 </div>
 
-Simply restating the setup conditions the trajectory on evidence over its priors — so much so that the exact same prior, when it surfaces later in the trace, cannot derail it. It followed the evidence rather than preceding it; it was bounded.
+Simply restating the setup conditions the trajectory on evidence over its priors, so much so that the exact same prior, when it surfaces later in the trace, cannot derail it. It followed the evidence rather than preceding it; it was bounded.
 
 <div class="trace evidence">
 <p class="trace-head"><span class="tag">applicable prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only</span></p>
