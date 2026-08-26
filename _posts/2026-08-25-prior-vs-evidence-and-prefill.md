@@ -77,5 +77,10 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 <div class="prefill evidence"><span class="ptag">evidence_only</span><p>To restate the setup: the tolerance is ε_r = max(10, 0.02 × bbox_diag), typically 10--25 pixels, and the new weight multiplies into the already-full semantic weight, clamped at ε_w.</p></div>
 </div>
 
+### Results (s040, four rollouts per arm)
 
-
+| arm | mean err | mean length (tok) | min / max length | closed think | parsed |
+|---|---:|---:|:---:|:---:|:---:|
+| `neutral` | 0.026 | 1,582 | 1,340 / 1,802 | 4/4 | 4/4 |
+| `prior_only` | 0.028 | 860 | 737 / 919 | 4/4 | 4/4 |
+| `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
