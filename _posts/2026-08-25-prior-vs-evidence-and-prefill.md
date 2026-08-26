@@ -123,7 +123,7 @@ Simply restating the setup conditions the trajectory on evidence over its priors
 </div>
 
 <div class="closing" markdown="1">
-While research taste is often seen as an emergent property of scale, there are unmistakable characteristics — as well as failure modes — of tasteful trajectories, which keep getting surfaced in the small evals I ran. I am confident that they can be decomposed into RL environments which can explicitly tune these characteristics into smaller models: **exchanging parameters for explicit injection.**
+While research taste is often seen as an emergent property of scale, there are unmistakable characteristics (as well as failure modes) pertaining to tasteful trajectories, which keep getting surfaced in the small evals I ran. I am confident that these can be decomposed into RL environments which can explicitly tune these characteristics into smaller models, thus exchanging parameters for explicit injection.
 
 <p class="coda">This is an ongoing research project; more updates to come.</p>
 </div>
