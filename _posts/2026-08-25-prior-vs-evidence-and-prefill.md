@@ -26,8 +26,6 @@ For the task type, these priors can end up derailing the reasoning trace of the 
 
 Over the cycles I have spent reading these trajectories, I am arriving at a fuzzy conclusion about research taste in large language models. Crudely put, how tasteful a model is depends heavily on when it relies on its priors, and when it doesn't. \
 
-A _prior_ is an assumption a language model makes based on its knowledge of the domain.
-
 
 <div class="method" markdown="1">
 **A note on the sample.** The traces below come from one training sample built from *Path Integral Value Matching for Linear Quadratic Stochastic Optimal Control* ([arXiv 2608.10777](https://arxiv.org/abs/2608.10777)). I rewrote the paper's method section in the first person with all results removed, gave the model the adjoint-matching (AM) baseline's numbers, and asked it to predict PI-VM's control L2 error and the paper's reported "Time" (in ms) on the three unimodal OU tasks. The paper does not define "Time" beyond the table header; from context it is per-iteration runtime on a single RTX 4060, and the 8 vs 41 ms gap reflects PI-VM dropping the baseline's forward simulation and backpropagation through the dynamics.
@@ -45,13 +43,13 @@ An applicable prior is always bounded by evidence, i.e the model applies its pri
 
 <span class="score-tag"><b>claude-fable-5</b> · mean sample error <b>0.94</b> · field median 0.94</span>
 
-Fable's prediction was very close to the target values, because it bound its prior by the fact that the baseline method (adjoin matching) requires simulating the controlled SDE forward and then solving an adjoint ODE backward through the whole trajectory (plus backprop through the simulator) on every training step. 
+Fable's prior was bounded by the fact that the baseline method (adjoint matching) requires simulating the controlled SDE forward and then solving an adjoint ODE backward through the whole trajectory (plus backprop through the simulator) on every training step. 
 
 ### A lethal prior
 
 A lethal prior is unbounded by any evidence, and while it may be technically and scientifically correct, it is applied blindly.
 
-The prior is consumed before its evidence — and the evidence is either never surfaced, or surfaced afterward and not allowed to bind.
+The prior is consumed before its evidence, and the evidence is either never surfaced, or surfaced afterward and not allowed to bind.
 
 <div class="trace lethal">
 <p class="trace-head"><span class="tag">lethal prior</span><span class="meta">deepseek-v4-pro · 2608.10777-s004 · reasoning</span></p>
@@ -63,13 +61,15 @@ The prior is consumed before its evidence — and the evidence is either never s
 
 <span class="score-tag"><b>deepseek-v4-pro</b> · mean sample error <b>3.34</b> · field median 0.94</span>
 
-Deepseek-v4-pro never took cognizance of the expensive adjoint matching baseline, and instead relied on its prior in an unbounded (lethal) manner and ended up being very off.
+<div class="takeaway" markdown="1">
+DeepSeek-v4-pro never took cognizance of the expensive adjoint-matching baseline, and instead relied on its prior in an unbounded — lethal — manner, and ended up very far off.
 
-Neither prior is false. MC sampling does cost compute; AM's adjoint solve is expensive. But the setup only allows for one of these to be consumed in a justified manner.
+**Neither prior is false.** MC sampling does cost compute; AM's adjoint solve is expensive. But the setup only allows one of them to be consumed in a justified manner.
+</div>
 
 ## The Prefill Experiment 
 
-To test the effect that a scientifically valid but inapplicable prior has on the reasoning trajectory, I ran 3 forward passes on Qwen3.5-4B per rollout, one prefilled with a prior, one prefilled with the setup reinstated, and one prefilled with nothing. 
+To test the effect that a scientifically valid and applicable prior has on the reasoning trajectory, I ran 3 arms on Qwen3.5-4B per rollout, four sampled rollouts each (temp 0.6, thinking on), one prefilled with a prior, one prefilled with the setup reinstated, and one prefilled with nothing. 
 
 <div class="method" markdown="1">
 **A note on the sample.** This trace comes from a training sample built from *EgoHieraLoc: A Cortically Inspired Hierarchical Segmentation-Guided Framework for Egocentric Visual Query Localization* ([arXiv 2608.09656](https://arxiv.org/abs/2608.09656)). The task is 3D object localization from first-person video: several camera frames each vote on where an object is, and the votes are averaged with confidence weights. The paper's baseline weights each frame only by how semantically confident it is. The intervention adds one more multiplicative weight — a *reprojection check* that down-weights a frame if projecting the consensus 3D point back into that frame lands far from where the object was actually seen. I gave the model the baseline's five numbers on the Ego4D-VQ3D validation set (Succ. 81.42%, Succ.* 96.93%, L2 1.37 m, Ang. 0.60 rad, QwP 84.48%) and asked it to predict all five after the geometric weight is added. Truth: small gains on four (81.82 / 98.11 / 1.31 / 0.57) and no change on QwP.
@@ -94,7 +94,7 @@ The three prefills, each opening the model's <code>&lt;think&gt;</code> block:
 | `evidence_only` | **0.018** | 4,426 | 3,890 / 4,934 | 4/4 | 4/4 |
 
 
-The pass prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The pass prefilled with only the setup restated, with no new information added outperformed both other passes by a significant degree, while reasoning for a longer while.
+The arm prefilled with the prior performed similarly to the neutral pass, albeit consuming fewer tokens. The arm prefilled with only the setup restated, with no new information added outperformed both other arms by a significant degree, while reasoning for a longer while.
 
 Reading the traces makes one wonder whether smaller models like Qwen are even more susceptible to prior-hacking: the `prior_only` rollouts call their estimates "conservative" while shipping the largest moves of any arm. The attention scores per rollout also show that the tokens corresponding to the prior had a disproportionate effect on the entire trajectory (see [Figure 1](#fig-attention)).
 

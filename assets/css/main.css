@@ -160,3 +160,8 @@ sup[role="doc-noteref"] a, .footnote { font-family: var(--sans); font-size: 0.75
 .closing p:first-child::first-letter { color: var(--accent); }
 .closing strong { font-weight: 600; }
 .closing .coda { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); margin-top: 1.2rem; }
+
+/* Takeaway: subtle emphasis for a summarising paragraph. <div class="takeaway" markdown="1"> … </div> */
+.takeaway { margin: 1.8rem 0; padding: 0.2rem 0 0.2rem 1.1rem; border-left: 3px solid var(--accent); font-size: 1.04rem; }
+.takeaway p { margin: 0 0 0.7rem; } .takeaway p:last-child { margin-bottom: 0; }
+.takeaway strong { font-weight: 600; }
