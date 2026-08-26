@@ -153,3 +153,10 @@ sup[role="doc-noteref"] a, .footnote { font-family: var(--sans); font-size: 0.75
 @media (max-width: 520px) { .prefill { grid-template-columns: 1fr; gap: 0.3rem; } }
 .prefill .pcite { margin: 0.35rem 0 0; font-family: var(--sans); font-size: 0.72rem; color: var(--muted); line-height: 1.45; }
 .prefill .pcite a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--rule); }
+
+/* Closing statement: <div class="closing" markdown="1"> … </div> */
+.closing { margin: 3rem 0 1rem; padding: 1.4rem 0 0; border-top: 1px solid var(--rule); font-size: 1.12rem; line-height: 1.55; }
+.closing p { margin: 0 0 0.9rem; }
+.closing p:first-child::first-letter { color: var(--accent); }
+.closing strong { font-weight: 600; }
+.closing .coda { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); margin-top: 1.2rem; }

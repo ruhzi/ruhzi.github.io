@@ -121,6 +121,8 @@ Simply restating the setup conditions the trajectory on evidence over its priors
 <pre>Usually, adding geometric consistency checks (like reprojection error) in multi-view localization helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too strict (though here it's adaptive to bbox size, so it should be reasonable).</pre>
 </div>
 
-</div>
+<div class="closing" markdown="1">
+While research taste is often seen as an emergent property of scale, there are unmistakable characteristics — as well as failure modes — of tasteful trajectories, which keep getting surfaced in the small evals I ran. I am confident that they can be decomposed into RL environments which can explicitly tune these characteristics into smaller models: **exchanging parameters for explicit injection.**
 
-While research taste is often seen as an emergent property of scale, there are unmistakeable characteristics (as well as failure modes) of tasteful trajectories, which keep getting surfaced in the small evals I ran. I am confident that they can be decomposed into RL environments which can explictly tune in these characteristics into smaller models, thus exchanging parameters for explicit injection. This is an ongoing research project, and there will be more updates to come.
+<p class="coda">This is an ongoing research project; more updates to come.</p>
+</div>
