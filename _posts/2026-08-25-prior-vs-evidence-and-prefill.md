@@ -116,5 +116,4 @@ Simply restating the setup conditions the trajectory on evidence over its priors
 <div class="trace evidence">
 <p class="trace-head"><span class="tag">applicable prior</span><span class="meta">Qwen3.5-4B · 2608.09656-s040 · evidence_only</span></p>
 <pre>Usually, adding geometric consistency checks … helps to filter out outliers and improve accuracy (L2, Ang) and sometimes success metrics, but can sometimes reduce success rate if too [strict].</pre>
-<p class="gloss">The same geometric-consistency prior the <code>prior_only</code> arm was seeded with — arriving after the tolerance has been read as lenient, and hedged accordingly.</p>
-</div>
+
