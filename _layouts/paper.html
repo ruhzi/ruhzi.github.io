@@ -1,0 +1,56 @@
+---
+layout: default
+---
+{% assign doi_url = page.doi | prepend: "https://doi.org/" %}
+<article class="post paper">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <p class="paper-authors">{{ page.authors | join: ", " }}</p>
+    <p class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+      {% if page.version %}<span class="sep">·</span> {{ page.version }}{% endif %}
+      {% if page.venue %}<span class="sep">·</span> {{ page.venue }}{% endif %}
+    </p>
+    <p class="paper-links">
+      <a href="{{ page.pdf | relative_url }}">PDF</a>
+      {% if page.doi and page.doi != "" %}<a href="{{ doi_url }}">DOI</a>{% endif %}
+      {% for l in page.links %}<a href="{{ l.url }}">{{ l.name }}</a>{% endfor %}
+    </p>
+    {% if page.doi and page.doi != "" %}<p class="paper-doi"><a href="{{ doi_url }}">{{ doi_url }}</a></p>{% endif %}
+  </header>
+
+  <div class="post-body e-content">
+    <h2>Abstract</h2>
+    <p>{{ page.abstract }}</p>
+    {{ content }}
+  </div>
+
+  {% if page.versions %}
+  <section class="paper-versions">
+    <h2>Version history</h2>
+    <ul>
+    {% for v in page.versions reversed %}
+      <li><a href="{{ v.pdf | relative_url }}"><strong>{{ v.v }}</strong></a> <span class="sep">·</span> <time datetime="{{ v.date | date_to_xmlschema }}">{{ v.date | date: "%-d %b %Y" }}</time>{% if v.note %} <span class="sep">·</span> {{ v.note }}{% endif %}</li>
+    {% endfor %}
+    </ul>
+    <p class="paper-versions-note"><a href="{{ page.pdf | relative_url }}">{{ page.pdf | absolute_url }}</a> always serves the latest version; each versioned PDF is fixed once posted.</p>
+  </section>
+  {% endif %}
+
+  <footer class="post-footer">
+    <details class="cite" open><summary>Cite this paper</summary>
+<pre><code>@misc{ {{- page.bibkey -}},
+  author    = { {{- page.bib_authors -}} },
+  title     = { {{- page.bib_title | default: page.title -}} },
+  year      = { {{- page.date | date: "%Y" -}} },
+{%- if page.doi and page.doi != "" %}
+  publisher = {Zenodo},
+  doi       = { {{- page.doi -}} },
+  url       = { {{- doi_url -}} }
+{%- else %}
+  url       = { {{- page.url | absolute_url -}} }
+{%- endif %}
+}</code></pre>
+    </details>
+  </footer>
+</article>
