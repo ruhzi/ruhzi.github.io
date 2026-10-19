@@ -25,18 +25,6 @@ layout: default
     {{ content }}
   </div>
 
-  {% if page.versions %}
-  <section class="paper-versions">
-    <h2>Version history</h2>
-    <ul>
-    {% for v in page.versions reversed %}
-      <li><a href="{{ v.pdf | relative_url }}"><strong>{{ v.v }}</strong></a> <span class="sep">·</span> <time datetime="{{ v.date | date_to_xmlschema }}">{{ v.date | date: "%-d %b %Y" }}</time>{% if v.note %} <span class="sep">·</span> {{ v.note }}{% endif %}</li>
-    {% endfor %}
-    </ul>
-    <p class="paper-versions-note"><a href="{{ page.pdf | relative_url }}">{{ page.pdf | absolute_url }}</a> always serves the latest version; each versioned PDF is fixed once posted.</p>
-  </section>
-  {% endif %}
-
   <footer class="post-footer">
     <details class="cite" open><summary>Cite this paper</summary>
 <pre><code>@misc{ {{- page.bibkey -}},

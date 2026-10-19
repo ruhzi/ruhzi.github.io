@@ -8,11 +8,6 @@ bibkey: chopra2026foresightbench
 date: 2026-10-20
 version: v1
 pdf: /papers/foresightbench.pdf
-versions:
-  - v: v1
-    date: 2026-10-20
-    pdf: /papers/foresightbench-v1.pdf
-    note: Initial version.
 doi: ""
 permalink: /papers/foresightbench/
 description: "A benchmark of 316 controlled comparisons from fresh arXiv preprints, testing whether LLMs can predict the empirical outcome of a research setup before it is run."
