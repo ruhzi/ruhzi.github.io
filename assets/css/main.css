@@ -166,10 +166,5 @@ sup[role="doc-noteref"] a, .footnote { font-family: var(--sans); font-size: 0.75
 .takeaway p { margin: 0 0 0.7rem; } .takeaway p:last-child { margin-bottom: 0; }
 .takeaway strong { font-weight: 600; }
 
-/* Paper pages (_layouts/paper.html) */
-.paper-authors { font-size: 1.1rem; margin: 0 0 0.4rem; }
-.paper-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0; font-family: var(--sans); font-size: 0.85rem; }
-.paper-links a { padding: 0.25em 0.8em; border: 1px solid var(--rule); border-radius: 999px; color: var(--fg); }
-.paper-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.paper-doi { margin: 0.8rem 0 0; font-family: var(--mono); font-size: 0.78rem; }
-.paper-doi a { color: var(--muted); }
+/* Papers list (papers/index.md) */
+.post-list .desc a.paper-extra { color: var(--muted); font-weight: 400; text-decoration: underline; text-decoration-color: var(--rule); }

@@ -28,5 +28,8 @@ feed:
 defaults:
   - scope: { path: "", type: posts }
     values: { layout: post, comments: false }
+  # Archived versions stay downloadable but out of the sitemap, so only the latest PDF is indexed.
+  - scope: { path: "papers/*-v*.pdf" }
+    values: { sitemap: false }
 
 exclude: [README.md, Gemfile, Gemfile.lock, vendor, node_modules]
