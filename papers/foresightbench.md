@@ -7,9 +7,9 @@ date: 2026-10-20
 pdf: /papers/foresightbench.pdf
 permalink: /papers/foresightbench/
 links:
-  - name: Dataset
+  - name: Dataset (HF)
     url: https://huggingface.co/datasets/ruhzi/foresightbench
-  - name: Benchmark repo
+  - name: Dataset (GitHub)
     url: https://github.com/ruhzi/benchmark
   - name: Pipeline
     url: https://github.com/ruhzi/autoresearchrl

@@ -28,7 +28,7 @@ title: Ruhaan Chopra
     <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %Y" }}</time>
     <div>
       <a href="{{ p.url }}">{{ p.title }}</a>
-      <p class="desc">Paper{% if p.authors %} <span class="sep">·</span> {{ p.authors }}{% endif %} <span class="sep">·</span> {{ p.venue }}</p>
+      <p class="desc">Paper <span class="sep">·</span> {{ p.venue }}</p>
     </div>
   </li>
 {% endfor %}
