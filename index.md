@@ -4,12 +4,10 @@ title: Ruhaan Chopra
 ---
 <div class="home">
 
-<p class="bio">I'm Ruhaan Chopra. I work on evaluation and reinforcement-learning post-training for language models. Most of it is about research taste: whether a model can predict how an experiment will turn out before running it, and how to train that.</p>
+<p class="bio">Working on evals and RL envs for unverifiable domains like research taste.</p>
 
 <p class="links">{% include social-links.html %}</p>
 
-<h2 id="now">Now</h2>
-<p>Using frontier models as judges that write the reward inside an RL loop, and measuring what that does to the small model being trained.</p>
 
 <h2 id="work">Papers and writing</h2>
 <ul class="post-list">

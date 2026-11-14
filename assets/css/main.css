@@ -21,6 +21,7 @@ a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
 .wrap, .site-header, .site-footer { max-width: var(--measure); margin: 0 auto; padding: 0 1.25rem; }
 .site-header { display: flex; justify-content: space-between; align-items: baseline; padding-top: 2rem; padding-bottom: 2.5rem; font-family: var(--sans); }
 .site-title { font-weight: 600; color: var(--fg); letter-spacing: -0.01em; }
+.site-tagline { display: block; color: var(--muted); font-size: 0.9rem; }
 .site-nav a { color: var(--muted); margin-left: 1.1rem; font-size: 0.9rem; }
 .site-nav a[aria-current="page"] { color: var(--fg); }
 .site-footer { padding: 3rem 1.25rem 4rem; color: var(--muted); font-family: var(--sans); font-size: 0.85rem; border-top: 1px solid var(--rule); margin-top: 4rem; }

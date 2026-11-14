@@ -1,5 +1,8 @@
 <header class="site-header">
-  <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+  <div class="site-id">
+    <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    {% if site.tagline %}<span class="site-tagline">{{ site.tagline }}</span>{% endif %}
+  </div>
   <nav class="site-nav">
     <a href="{{ '/feed.xml' | relative_url }}">rss</a>
   </nav>
