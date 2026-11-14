@@ -19,7 +19,7 @@ title: Ruhaan Chopra
     <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %Y" }}</time>
     <div>
       <a href="{{ p.pdf | relative_url }}">{{ p.title }}</a>
-      <p class="desc">Paper{% for l in p.links %} <span class="sep">·</span> <a class="paper-extra" href="{{ l.url }}">{{ l.name }}</a>{% endfor %}</p>
+      {% if p.links %}<p class="desc">{% for l in p.links %}{% unless forloop.first %} <span class="sep">·</span> {% endunless %}<a class="paper-extra" href="{{ l.url }}">{{ l.name }}</a>{% endfor %}</p>{% endif %}
     </div>
   </li>
 {% endfor %}
@@ -28,7 +28,6 @@ title: Ruhaan Chopra
     <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %Y" }}</time>
     <div>
       <a href="{{ p.url }}">{{ p.title }}</a>
-      <p class="desc">Paper <span class="sep">·</span> {{ p.venue }}</p>
     </div>
   </li>
 {% endfor %}
@@ -37,7 +36,7 @@ title: Ruhaan Chopra
     <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %Y" }}</time>
     <div>
       <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <p class="desc">Post{% if post.description %} <span class="sep">·</span> {{ post.description }}{% endif %}</p>
+      {% if post.description %}<p class="desc">{{ post.description }}</p>{% endif %}
     </div>
   </li>
 {% endfor %}
