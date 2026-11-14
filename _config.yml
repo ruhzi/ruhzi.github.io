@@ -4,6 +4,10 @@ description: >-
   enthusiast
 author:
   name: Ruhaan Chopra
+social:
+  github: ruhzi
+  huggingface: ruhzi
+  x:              # handle without the @; the link appears once this is set
 url: https://ruhzi.github.io
 baseurl: ""
 lang: en

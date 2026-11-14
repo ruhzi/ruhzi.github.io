@@ -35,6 +35,12 @@ a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
 .post-list .desc { margin: 0.15rem 0 0; color: var(--muted); font-size: 0.95rem; }
 @media (max-width: 520px) { .post-list li { grid-template-columns: 1fr; gap: 0.15rem; } }
 
+/* Home */
+.home .bio { font-size: 1.1rem; margin: 0 0 0.75rem; }
+.home .links { font-family: var(--sans); font-size: 0.9rem; color: var(--muted); margin: 0 0 2.5rem; }
+.home h2 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 2.5rem 0 0.6rem; }
+.home > p { margin: 0 0 1rem; }
+
 /* Post */
 .post-header { margin-bottom: 2.5rem; }
 .post-title { font-size: 2.1rem; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 0.5rem; font-weight: 600; }
