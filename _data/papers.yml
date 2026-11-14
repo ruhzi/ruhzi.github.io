@@ -3,15 +3,18 @@
   date: 2026-05-12
   url: https://arxiv.org/abs/2605.11426
   venue: arXiv 2605.11426
+  note: "First author (solo, independent)"
 
 - title: "Beacon: Single-Turn Diagnosis and Mitigation of Latent Sycophancy in Large Language Models"
   authors: "Sanskar Pandey, Ruhaan Chopra, Angkul Puniya, Sohom Pal"
   date: 2025-10-19
   url: https://arxiv.org/abs/2510.16727
   venue: arXiv 2510.16727
+  note: "First author"
 
 - title: "Hecto: Modular Sparse Experts for Adaptive and Interpretable Reasoning"
   authors: "Sanskar Pandey, Ruhaan Chopra, Saad Murtaza Bhat, Ark Abhyudaya"
   date: 2025-06-28
   url: https://arxiv.org/abs/2506.22919
   venue: arXiv 2506.22919
+  note: "First author"

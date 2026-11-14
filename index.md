@@ -19,7 +19,7 @@ title: Ruhaan Chopra
     <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %Y" }}</time>
     <div>
       <a href="{{ p.pdf | relative_url }}">{{ p.title }}</a>
-      {% if p.links %}<p class="desc">{% for l in p.links %}{% unless forloop.first %} <span class="sep">·</span> {% endunless %}<a class="paper-extra" href="{{ l.url }}">{{ l.name }}</a>{% endfor %}</p>{% endif %}
+      {% if p.note or p.links %}<p class="desc">{{ p.note }}{% for l in p.links %}{% if p.note or forloop.first == false %} <span class="sep">·</span> {% endif %}<a class="paper-extra" href="{{ l.url }}">{{ l.name }}</a>{% endfor %}</p>{% endif %}
     </div>
   </li>
 {% endfor %}
@@ -28,6 +28,7 @@ title: Ruhaan Chopra
     <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %Y" }}</time>
     <div>
       <a href="{{ p.url }}">{{ p.title }}</a>
+      {% if p.note %}<p class="desc">{{ p.note }}</p>{% endif %}
     </div>
   </li>
 {% endfor %}

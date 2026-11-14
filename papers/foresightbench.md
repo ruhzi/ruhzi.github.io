@@ -3,6 +3,7 @@ layout: pdf-redirect
 sitemap: false
 title: "ForesightBench: Benchmarking Research Foresight in Large Language Models"
 authors: ["Ruhaan Chopra"]
+note: "First author (solo, independent)"
 date: 2026-10-20
 pdf: /papers/foresightbench.pdf
 permalink: /papers/foresightbench/
