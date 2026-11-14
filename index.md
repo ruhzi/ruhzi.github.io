@@ -23,6 +23,15 @@ title: Ruhaan Chopra
     </div>
   </li>
 {% endfor %}
+{% for p in site.data.papers %}
+  <li>
+    <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %Y" }}</time>
+    <div>
+      <a href="{{ p.url }}">{{ p.title }}</a>
+      <p class="desc">Paper{% if p.authors %} <span class="sep">·</span> {{ p.authors }}{% endif %} <span class="sep">·</span> {{ p.venue }}</p>
+    </div>
+  </li>
+{% endfor %}
 {% for post in site.posts %}
   <li>
     <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %Y" }}</time>
