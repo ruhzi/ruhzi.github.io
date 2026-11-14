@@ -1,13 +1,14 @@
 title: Ruhaan Chopra
 tagline: Independent research engineer
 description: >-
-  enthusiast
+  Independent research engineer working on evals and RL environments for unverifiable domains like research taste.
 author:
   name: Ruhaan Chopra
 social:
   github: ruhzi
   huggingface: ruhzi
   x: ruhzi57
+  email: ruhaanchopra2005@gmail.com
 url: https://ruhzi.github.io
 baseurl: ""
 lang: en
